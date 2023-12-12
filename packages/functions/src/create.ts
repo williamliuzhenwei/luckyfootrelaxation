@@ -5,8 +5,13 @@ import dynamoDb from "@notes/core/dynamodb";
 
 export const main = handler(async (event) => {
   let data = {
-    content: "",
-    attachment: "",
+    employeeName: "",
+    workType: "",
+    workTime: "",
+    paymentMethod: "",
+    paymentAmount: 0,
+    tipMethod: "",
+    tipAmount: 0,
   };
 
   if (event.body != null) {
@@ -14,14 +19,18 @@ export const main = handler(async (event) => {
   }
 
   const params = {
-    TableName: Table.Notes.tableName,
+    TableName: Table.Schedules.tableName,
     Item: {
-      // The attributes of the item to be created
       userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
-      noteId: uuid.v1(), // A unique uuid
-      content: data.content, // Parsed from request body
-      attachment: data.attachment, // Parsed from request body
-      createdAt: Date.now(), // Current Unix timestamp
+      scheduleId: uuid.v1(),
+      employeeName: data.employeeName,
+      workType: data.workType,
+      workTime: data.workTime,
+      paymentMethod: data.paymentMethod,
+      paymentAmount: data.paymentAmount,
+      tipMethod: data.tipMethod,
+      tipAmount: data.tipAmount,
+      createdAt: Date.now(),
     },
   };
 

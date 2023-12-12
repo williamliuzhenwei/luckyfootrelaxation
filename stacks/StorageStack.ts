@@ -1,6 +1,5 @@
 import { Bucket, StackContext, Table } from "sst/constructs";
 
-
 export function StorageStack({ stack }: StackContext) {
 
   // Create an S3 bucket
@@ -15,17 +14,25 @@ export function StorageStack({ stack }: StackContext) {
     ],
   });
 
-  // Create the DynamoDB table
-  const table = new Table(stack, "Notes", {
+  // Create the DynamoDB table for schedules
+  const scheduleTable = new Table(stack, "Schedules", {
     fields: {
       userId: "string",
-      noteId: "string",
+      scheduleId: "string",
+      employeeName: "string",
+      workType: "string",
+      workTime: "string",
+      paymentMethod: "string",
+      paymentAmount: "number",
+      tipMethod: "string",
+      tipAmount: "number",
+      createdAt: "number",
     },
-    primaryIndex: { partitionKey: "userId", sortKey: "noteId" },
+    primaryIndex: { partitionKey: "userId", sortKey: "scheduleId" },
   });
 
   return {
     bucket,
-    table,
+    scheduleTable,  // Update to the new table name
   };
 }

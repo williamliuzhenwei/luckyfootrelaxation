@@ -3,14 +3,14 @@ import { StorageStack } from "./StorageStack";
 
 export function ApiStack({ stack }: StackContext) {
   const STRIPE_SECRET_KEY = new Config.Secret(stack, "STRIPE_SECRET_KEY");
-  const { table } = use(StorageStack);
+  const { scheduleTable } = use(StorageStack);
 
   // Create the API
   const api = new Api(stack, "Api", {
     defaults: {
       authorizer: "iam",
       function: {
-        bind: [table, STRIPE_SECRET_KEY],
+        bind: [scheduleTable, STRIPE_SECRET_KEY],
       },
     },
     routes: {
